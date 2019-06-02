@@ -7,10 +7,11 @@ metadata:
 spec:
   containers:
   - name: sotolito-nginx-container
-    image: hub.sotolitlabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
+    image: hub.sotolitolabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
     command: ["nginx", "-g", "daemon off;"]
     ports:
-    - containerPort: CHECK
+    - containerPort: 80
+      hostPort: 8080
       name: sotolito-nginx-container-port
     volumeMounts:
     - name: stolito-nginx-var-volume
@@ -44,11 +45,11 @@ spec:
       type: DirectoryOrCreate
   initContainers:
   - name: sotolito-init-nginx-container
-    image: hub.sotolitlabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
+    image: hub.sotolitolabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
+    command: ['/setup.sh']
     volumeMounts:
     - name: stolito-nginx-setup-var-volume
       mountPath: /var/sotolito
-   command: ['/setup.sh']
   volumes:
   - name: stolito-nginx-setup-var-volume
     hostPath:

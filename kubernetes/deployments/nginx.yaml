@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+  labels:
+    app: sotolito-nginx
+spec:
+  containers:
+  - name: sotolito-nginx-container
+    image: hub.sotolitlabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
+    command: ["nginx", "-g", "daemon off;"]
+    ports:
+    - containerPort: CHECK
+      name: sotolito-nginx-container-port
+    volumeMounts:
+    - name: stolito-nginx-var-volume
+      mountPath: /var
+    - name: sotolito-nginx-etc-volume
+      mountPath: /etc/nginx
+    - name: sotolito-nginx-php-fpm-volume
+      mountPath: /run/php-fpm
+    - name: sotolito-nginx-php-apps
+      mountPath: /var/lib/nginx/html/php-apps
+  volumes:
+  - name: stolito-nginx-var-volume
+    hostPath:
+      path: /var/sotolito/vols/nginx/var
+      # Create it if does not exist
+      type: DirectoryOrCreate
+  - name: sotolito-nginx-etc-volume
+    hostPath:
+      path: /var/sotolito/vols/nginx/etc/nginx
+      # Create it if does not exist
+      type: DirectoryOrCreate
+  - name: sotolito-nginx-php-fpm-volume
+    hostPath:
+      path: /var/sotolito/vols/php-fpm/run/php-fpm/
+      # Create it if does not exist
+      type: DirectoryOrCreate
+  - name: sotolito-nginx-php-apps
+    hostPath:
+      path: /var/sotolito/vols/php-apps
+      # Create it if does not exist
+      type: DirectoryOrCreate
+  initContainers:
+  - name: sotolito-init-nginx-container
+    image: hub.sotolitlabs.com:5000/sotolitolabs-alpine-arm-nginx-setup
+    volumeMounts:
+    - name: stolito-nginx-setup-var-volume
+      mountPath: /var/sotolito
+   command: ['/setup.sh']
+  volumes:
+  - name: stolito-nginx-setup-var-volume
+    hostPath:
+      path: /var/sotolito
+      # Create it if does not exist
+      type: DirectoryOrCreate
+
+

@@ -31,17 +31,14 @@ spec:
   - name: sotolito-nginx-etc-volume
     hostPath:
       path: /var/sotolito/vols/nginx/etc/nginx
-      # Create it if does not exist
       type: DirectoryOrCreate
   - name: sotolito-nginx-php-fpm-volume
     hostPath:
       path: /var/sotolito/vols/php-fpm/run/php-fpm/
-      # Create it if does not exist
       type: DirectoryOrCreate
   - name: sotolito-nginx-php-apps
     hostPath:
       path: /var/sotolito/vols/php-apps
-      # Create it if does not exist
       type: DirectoryOrCreate
   initContainers:
   - name: sotolito-init-nginx-container
@@ -54,7 +51,6 @@ spec:
   - name: stolito-nginx-setup-var-volume
     hostPath:
       path: /var/sotolito
-      # Create it if does not exist
       type: DirectoryOrCreate
 
 

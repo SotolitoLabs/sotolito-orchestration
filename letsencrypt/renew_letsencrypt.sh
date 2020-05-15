@@ -18,7 +18,7 @@ function gen_fullchain() {
     cd $CERT_PATH
     cat privkey.pem > haproxy_fullchain.pem 
     cat fullchain.pem  >> haproxy_fullchain.pem 
-    ln -s "${CERT_PATH}/haproxy_fullchain.pem" "${HAPROXY_PATH}/${1}"
+    ln -fs "${CERT_PATH}/haproxy_fullchain.pem" "${HAPROXY_PATH}/${1}"
 }
 
 
